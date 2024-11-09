@@ -5,15 +5,23 @@ export const ping = async (req,res) => {
 }
 
 export const TraerJugadores = async (req,res) => {
-    const [result] = await pool.query('call spTraerJugadores')
-    res.json(result[0])
+    try {
+        const [result] = await pool.query('call spTraerJugadores')
+        res.json(result[0])
+    } catch (error) {
+        return res.status(500).json({message: 'Ocurrio un error'})
+    }
 }
 
 export const TraerJugador = async (req,res) => {
-    const [result] = await pool.query('select * from jugadores where id = ?',
-        [req.params.id]
-    )
-    res.json(result[0])
+    try {
+        const [result] = await pool.query('select * from jugadores where id = ?',
+            [req.params.id]
+        )
+        res.json(result[0])
+    } catch (error) {
+        return res.status(500).json({message: 'Ocurrio un error'})
+    }
 }
 
 export const Registrar = async (req,res) => {

@@ -39,7 +39,7 @@ export const Registrar = async (req,res) => {
             )
             var idMax = id[0].id;
             if(repeated.length === 0){
-                const [result] = await pool.query('insert into jugadores(id,usuario, password) values(?,?,?)',
+                const [result] = await pool.query('insert into jugadores(id,usuario, password,secs_played) values(?,?,?,0)',
                 [idMax,usuario, password])
                 const [row] = await pool.query('select id from jugadores where usuario = ? and password = ?',
                     [usuario, password])

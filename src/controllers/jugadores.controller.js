@@ -33,11 +33,20 @@ export const Registrar = async (req,res) => {
         const {usuario, password} = req.body 
         if(!isNullOrEmpty(usuario) && !isNullOrEmpty(password)){
             // const [result] = await pool.query('call spCrearUsuario (?,?)',
-            const [result] = await pool.query('insert into jugadores(usuario, password) values(?,?)',
-            [usuario, password])
-            const [row] = await pool.query('select id from jugadores where usuario = ? and password = ?',
-                [usuario, password])
-            return res.json(row)
+            const [id] = await pool.query('select (count(*) + 1) as id from jugadores')
+            const [repeated] = await pool.query('select * from jugadores where usuario = ?',
+                [usuario]
+            )
+            var idMax = id[0].id;
+            if(repeated.length === 0){
+                const [result] = await pool.query('insert into jugadores(id,usuario, password) values(?,?,?)',
+                [idMax,usuario, password])
+                const [row] = await pool.query('select id from jugadores where usuario = ? and password = ?',
+                    [usuario, password])
+                return res.json(row)
+            }
+            return res.status(404).json({message: 'Usuario Existente'})
+            
         }
         return res.status(404).json({message: 'campos vacios'})
     } catch (error) {

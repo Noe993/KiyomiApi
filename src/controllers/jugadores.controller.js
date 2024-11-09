@@ -11,7 +11,7 @@ export const TraerJugadores = async (req,res) => {
         const [result] = await pool.query('select id, usuario, IFNULL(secs_played, 0) as secs_played from jugadores')
         res.json(result)
     } catch (error) {
-        console.log(error.message)
+        console.log(error)
         return res.status(500).json({message: 'Ocurrio un error'})
     }
 }
@@ -23,7 +23,7 @@ export const TraerJugador = async (req,res) => {
         )
         res.json(result[0])
     } catch (error) {
-        console.log(error.message)
+        console.log(error)
         return res.status(500).json({message: 'Ocurrio un error'})
     }
 }
@@ -41,7 +41,7 @@ export const Registrar = async (req,res) => {
         }
         return res.status(404).json({message: 'campos vacios'})
     } catch (error) {
-        console.log(error.message)
+        console.log(error)
         return res.status(500).json({message: 'Ocurrio un error'})
     }
 }
@@ -55,7 +55,7 @@ export const EmpezarContador = async (req,res) => {
         // res.json(result[0])
         res.sendStatus(204)
     } catch (error) {
-        console.log(error.message)
+        console.log(error)
         return res.status(500).json({message: 'Ocurrio un error'})
     }
 }
@@ -71,7 +71,7 @@ export const DetenerContador = async (req,res) => {
         // res.json(result[0])
         res.sendStatus(204)
     } catch (error) {
-        console.log(error.message)
+        console.log(error)
         return res.status(500).json({message: 'Ocurrio un error'})
     }
 }

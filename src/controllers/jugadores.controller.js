@@ -72,7 +72,7 @@ export const DetenerContador = async (req,res) => {
         res.sendStatus(204)
     } catch (error) {
         console.log(error)
-        return res.status(500).json({message: 'Ocurrio un error'})
+        return res.status(500).json({message: error.message})
     }
 }
 

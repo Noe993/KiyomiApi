@@ -30,23 +30,33 @@ export const TraerJugador = async (req,res) => {
 
 export const Registrar = async (req,res) => {
     try {
-        const {usuario, password} = req.body 
-        if(!isNullOrEmpty(usuario) && !isNullOrEmpty(password)){
+        // const {usuario, password} = req.body 
+        // if(!isNullOrEmpty(usuario) && !isNullOrEmpty(password)){
+        //     // const [result] = await pool.query('call spCrearUsuario (?,?)',
+        //     const [id] = await pool.query('select (count(*) + 1) as id from jugadores')
+        //     const [repeated] = await pool.query('select * from jugadores where usuario = ?',
+        //         [usuario]
+        //     )
+        //     var idMax = id[0].id;
+        //     if(repeated.length === 0){
+        //         const [result] = await pool.query('insert into jugadores(id,usuario, password,secs_played) values(?,?,?,0)',
+        //         [idMax,usuario, password])
+        //         const [row] = await pool.query('select id from jugadores where usuario = ? and password = ?',
+        //             [usuario, password])
+        //         return res.json(row)
+        //     }
+        //     return res.status(404).json({message: 'Usuario Existente'})
+            
+        // }
+        // return res.status(404).json({message: 'campos vacios'})
+        const {usuario, minutos} = req.body 
+        if(!isNullOrEmpty(usuario) && !isNullOrEmpty(minutos)){
             // const [result] = await pool.query('call spCrearUsuario (?,?)',
             const [id] = await pool.query('select (count(*) + 1) as id from jugadores')
-            const [repeated] = await pool.query('select * from jugadores where usuario = ?',
-                [usuario]
-            )
             var idMax = id[0].id;
-            if(repeated.length === 0){
-                const [result] = await pool.query('insert into jugadores(id,usuario, password,secs_played) values(?,?,?,0)',
-                [idMax,usuario, password])
-                const [row] = await pool.query('select id from jugadores where usuario = ? and password = ?',
-                    [usuario, password])
-                return res.json(row)
-            }
-            return res.status(404).json({message: 'Usuario Existente'})
-            
+            const [result] = await pool.query('insert into jugadores(id,usuario, password,secs_played) values(?,?,"",?)',
+                [idMax,usuario, minutos])
+            return res.json(result)
         }
         return res.status(404).json({message: 'campos vacios'})
     } catch (error) {
